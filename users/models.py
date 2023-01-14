@@ -11,8 +11,6 @@ class Profile(models.Model):
     slug = AutoSlugField(populate_from='user')
     bio = models.CharField(max_length=255, blank=True)
     friends = models.ManyToManyField("Profile", blank=True)
-    library = models.ForeignKey(Library, on_delete=models.CASCADE)
-
     def get_absolute_url(self):
         return "/users/{}".format(self.slug)
 
