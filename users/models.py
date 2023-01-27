@@ -9,7 +9,7 @@ from books.models import Library
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default_profile.png', upload_to='profile_pictures')
+    image = models.ImageField(default='media/default_profile.png', upload_to='profile_pictures')
     slug = AutoSlugField(populate_from='user')
     bio = models.CharField(max_length=255, blank=True)
 

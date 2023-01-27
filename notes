@@ -1,14 +1,12 @@
 TODO:
-1.add book application
-2.write css
+1.add book
+2.add book description
+2.write css for email recovery
+x.finish css for search
 3.complete mail sending
-4.connect to google books api
 5.password recovery
 6.complete user profile
-7.add user profile picture
-8.add user profile picture upload
-9.add user profile picture delete
-10.add user profile picture update
+
 11.add password recovery
 12.add password recovery mail
 13.add password recovery mail sending

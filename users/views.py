@@ -12,11 +12,11 @@ User = get_user_model()
 def my_profile(request):
     p = request.user.profile
     who = p.user
-    # library = Library.objects.filter(user=request.user)
-    # books_in_library = [book for book in library.values_list('book', flat=True)]
+    library = Library.objects.filter(user=request.user)
+    books_in_library = [book for book in library.values_list('book', flat=True)]
     context = {
         'u': who,
-        # 'books_in_library': books_in_library
+        'books_in_library': books_in_library,
     }
 
     return render(request, "users/profile.html", context)

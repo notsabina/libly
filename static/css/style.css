@@ -785,3 +785,12 @@
     width: 80%;
   border: 2px dashed rgba(120, 120, 120, 0.4);
 }
+
+.books-message {
+    align-self: center;
+    color: var(--dl-color-scheme-white);
+    font-size: 20px;
+    margin-top: var(--dl-space-space-unit);
+    text-align: center;
+    text-transform: capitalize;
+}
