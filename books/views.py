@@ -1,9 +1,10 @@
 import requests as url_requests
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from books.models import Book, Library
+from libly.settings import env
 
 
 @login_required
@@ -11,7 +12,7 @@ def book_list(request):
     user_library = Library.objects.filter(user=request.user)
     books_in_library = [book for book in user_library.values_list('book', flat=True)]
     search_term = request.GET.get('search', '')
-    api_key = 'AIzaSyAzmUaULnPv1IhOorHDN36kbOR7FPU-Pmc'
+    api_key = env('API_KEY')
     api_url = f'https://www.googleapis.com/books/v1/volumes?q={search_term}&key={api_key}'
     response = url_requests.get(api_url)
     data = response.json()
@@ -51,7 +52,6 @@ def book_list(request):
                 num_pages = 'Unknown'
 
         new_key = str(hash((title, tuple(authors), publication_date)))
-        print(new_key)
         all_books = list(Book.objects.all().values_list('key', flat=True))
 
         if new_key not in all_books:
@@ -80,7 +80,6 @@ def book_list(request):
 @login_required
 def book_detail(request, key):
     book = get_object_or_404(Book, pk=key)
-    print(book)
     user_library = Library.objects.filter(user=request.user).filter(book=book).values_list('book', flat=True)
     in_library = True if user_library else False
     return render(request,

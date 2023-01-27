@@ -1,21 +1,21 @@
 {% extends "feed/layout.html" %}
 {% load crispy_forms_filters %} {% load static %} {% load crispy_forms_tags %} {% block content %}
-<br />
-     <div class="log-container">
-          <h1 class="log-header">Update Profile</h1>
-          <form class="log-form align=center" method="POST" enctype="multipart/form-data">
-              {% csrf_token %}
-              <fieldset>
-              <br />
-              {{ u_form|crispy }} {{ p_form|crispy }}
+    <br/>
+    <div class="log-container">
+        <h1 class="log-header">Update Profile</h1>
+        <form class="log-form align=center" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <br/>
+                {{ u_form|crispy }} {{ p_form|crispy }}
             </fieldset>
             <button
-                type="submit"
-              class="layout-nlink button button-secondary"
+                    type="submit"
+                    class="layout-nlink button button-secondary"
             >Update
             </button>
-            <br />
-              <span class="log-text"><a href="{% url 'my_profile' %}"><b>Go Back</b></a></span>
-          </form>
-        </div>
+            <br/>
+            <span class="log-text"><a href="{% url 'my_profile' %}"><b>Go Back</b></a></span>
+        </form>
+    </div>
 {% endblock content %}

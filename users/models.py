@@ -1,7 +1,7 @@
+from autoslug import AutoSlugField
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from autoslug import AutoSlugField
 from django.db.models.signals import post_save
 
 from books.models import Library

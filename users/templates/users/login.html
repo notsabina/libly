@@ -1,29 +1,31 @@
 {% extends "feed/layout.html" %}
 {% load crispy_forms_filters %} {% load static %} {% load crispy_forms_tags %}
 {% block content %}
-<br />
- <div class="log-container">
-          <h1 class="log-header">Sign In</h1>
-          <form class="log-form  align=center" method="POST">
+    <br/>
+    <div class="log-container">
+        <h1 class="log-header">Sign In</h1>
+        <form class="log-form  align=center" method="POST">
             {% csrf_token %}
             <fieldset>
-              <br />
-              {{ form|crispy }}
+                <br/>
+                {{ form|crispy }}
             </fieldset>
-              <button
-                class="layout-nlink button button-secondary"
-                type="submit"
-              >
-                Login</button
-              ><br />
-              <a
-                class="log-text"
-                href="{% url 'password_reset' %}"
-                >Forgot Password?</a
-              >
+            <button
+                    class="layout-nlink button button-secondary"
+                    type="submit"
+            >
+                Login
+            </button
+            >
+            <br/>
+            <a
+                    class="log-text"
+                    href="{% url 'password_reset' %}"
+            >Forgot Password?</a
+            >
             <span class="log-text">
                 Not registered yet! <a href="{% url 'register' %}"><b>Register Now!</b></a>
                 </span>
-          </form>
-        </div>
+        </form>
+    </div>
 {% endblock content %}

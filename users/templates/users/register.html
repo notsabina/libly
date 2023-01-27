@@ -1,22 +1,22 @@
 {% extends "feed/layout.html" %}
 {% load crispy_forms_filters %} {% load crispy_forms_tags %} {% load static %}
 {% block content %}
-<br />
-     <div class="log-container">
-          <h1 class="log-header">Register</h1>
-          <form class="log-form align=center" method="POST">
-              {% csrf_token %}
-              <fieldset>
-              <br />
-              {{ form|crispy }}
+    <br/>
+    <div class="log-container">
+        <h1 class="log-header">Register</h1>
+        <form class="log-form align=center" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <br/>
+                {{ form|crispy }}
             </fieldset>
             <button
-                type="submit"
-              class="layout-nlink button button-secondary"
+                    type="submit"
+                    class="layout-nlink button button-secondary"
             >Submit
             </button>
-              <span class="log-text">Already registered? <a href="{% url 'login' %}"><b>Login Now!</b></a></span>
-          </form>
-        </div>
+            <span class="log-text">Already registered? <a href="{% url 'login' %}"><b>Login Now!</b></a></span>
+        </form>
+    </div>
 {% endblock content %}
 

@@ -1,28 +1,28 @@
-{%  extends "feed/layout.html" %}
-        {%  block content %}
-{% if  user.is_authenticated  %}
-    {% include "feed/search_results.html" %}
+{% extends "feed/layout.html" %}
+{% block content %}
+    {% if  user.is_authenticated %}
+        {% include "feed/search_results.html" %}
     {% else %}
-            <div class="home-content">
+        <div class="home-content">
             <br/>
-              <span class="home-subtitle beforeHeading">
+            <span class="home-subtitle beforeHeading">
                 book tracking system
               </span>
-              <h1 class="home-title">
+            <h1 class="home-title">
                 <span>Unlock the next</span>
-                <br />
+                <br/>
                 <span>book tracking</span>
-                <br class="home-text4" />
+                <br class="home-text4"/>
                 <span class="home-text5">experience</span>
-              </h1>
-              <span class="home-description">
+            </h1>
+            <span class="home-description">
                 Minimalistic web application that allows you to track your books and share them with your friends.
               </span>
-              <div class="home-container1">
+            <div class="home-container1">
                 <a href="{% url 'register' %}" class="layout-nlink button button-gradient">Get started</a>
                 <a href="{% url 'login' %}" class="layout-nlink button button-transparent">Log in</a>
-              </div>
             </div>
+        </div>
 
-{%  endif %}
-{%  endblock %}
+    {% endif %}
+{% endblock %}

@@ -1,28 +1,28 @@
-{%  extends "feed/layout.html" %}
-        {%  block content %}
-{% if  user.is_authenticated  %}
-     <div class="book-container">
-         <img
-      src="{{ image }}"
-      alt="image"
-      class="book-image"
-    />
-        <div class="book-container1">
-            <h3><a href="/books/book/{{ key }}}"><b>{{ title }}</b></a></h3>
-            <p><a id="author"><b>Authors:</b></a> {{ authors }}</p>
-            <p><a id="publisher"><b>Publisher:</b></a> {{ publisher }}</p>
-            <p><a id="publicationDate"><b>Publication date:</b></a> {{ publication_date }}</p>
-        <p><a id="pageNumber"><b>No of pages:</b></a> {{ page_count }}</p>
-            {% if not in_library %}
-      <form method="post" action="{% url 'add_to_library' key %}">
-        {% csrf_token %}
-        <button class="layout-nlink button button-secondary" type="submit">Add to Library</button>
-      </form>
-    {% else %}
-                <b>Already in Library</b>
+{% extends "feed/layout.html" %}
+{% block content %}
+    {% if  user.is_authenticated %}
+        <div class="book-container">
+            <img
+                    src="{{ image }}"
+                    alt="image"
+                    class="book-image"
+            />
+            <div class="book-container1">
+                <h3><a href="/books/book/{{ key }}}"><b>{{ title }}</b></a></h3>
+                <p><a id="author"><b>Authors:</b></a> {{ authors }}</p>
+                <p><a id="publisher"><b>Publisher:</b></a> {{ publisher }}</p>
+                <p><a id="publicationDate"><b>Publication date:</b></a> {{ publication_date }}</p>
+                <p><a id="pageNumber"><b>No of pages:</b></a> {{ page_count }}</p>
+                {% if not in_library %}
+                    <form method="post" action="{% url 'add_to_library' key %}">
+                        {% csrf_token %}
+                        <button class="layout-nlink button button-secondary" type="submit">Add to Library</button>
+                    </form>
+                {% else %}
+                    <b>Already in Library</b>
+                {% endif %}
+                <p><a id="description"><b>Description:</b></a> <br/> {{ description }}</p>
+            </div>
+        </div>
     {% endif %}
-        <p><a id="description"><b>Description:</b></a> <br/> {{ description }}</p>
-        </div>
-        </div>
-{%  endif %}
-{%  endblock %}
+{% endblock %}

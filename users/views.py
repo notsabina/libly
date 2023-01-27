@@ -9,6 +9,7 @@ from users.forms import UserUpdateForm, UserRegisterForm, ProfileUpdateForm
 User = get_user_model()
 
 
+@login_required
 def my_profile(request):
     p = request.user.profile
     who = p.user

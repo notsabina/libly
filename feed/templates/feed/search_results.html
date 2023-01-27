@@ -1,39 +1,40 @@
 <div class="book-content">
-<br/>
+    <br/>
     <form method="GET" class="log-form  align=center" action="{% url 'book-list' %}">
         <input
                 class="component-searchbar input" type="text" name="search" autocomplete="on"
                 placeholder="The book i read is...">
         <button
                 type="submit"
-              class="layout-nlink button button-secondary"
-            >Search
-            </button>
+                class="layout-nlink button button-secondary"
+        >Search
+        </button>
     </form>
 
     {% for book in books %}
         <div class="book-container">
-         <img
-      src="{{ book.image }}"
-      alt="image"
-      class="book-image"
-    />
-        <div class="book-container1">
-            <h3><a href="/book/{{ book.key }}/"><b>{{ book.title }}</b></a></h3>
-            <p><a id="author"><b>Authors:</b></a> {{ book.authors }}</p>
-            <p><a id="publisher"><b>Publisher:</b></a> {{ book.publisher }}</p>
-            <p><a id="publicationDate"><b>Publication date:</b></a> {{ book.publication_date }}</p>
-            {% if not book.key in books_in_library %}
-      <form method="post" action="{% url 'add_to_library' book.key %}">
-        {% csrf_token %}
-        <button class="add-to-library-btn layout-nlink button button-secondary" type="submit">
-            Add to Library</button>
-      </form>
-    {% else %}
-                <b>Already in Library</b>
+            <img
+                    src="{{ book.image }}"
+                    alt="image"
+                    class="book-image"
+            />
+            <div class="book-container1">
+                <h3><a href="/book/{{ book.key }}/"><b>{{ book.title }}</b></a></h3>
+                <p><a id="author"><b>Authors:</b></a> {{ book.authors }}</p>
+                <p><a id="publisher"><b>Publisher:</b></a> {{ book.publisher }}</p>
+                <p><a id="publicationDate"><b>Publication date:</b></a> {{ book.publication_date }}</p>
+                {% if not book.key in books_in_library %}
+                    <form method="post" action="{% url 'add_to_library' book.key %}">
+                        {% csrf_token %}
+                        <button class="add-to-library-btn layout-nlink button button-secondary" type="submit">
+                            Add to Library
+                        </button>
+                    </form>
+                {% else %}
+                    <b>Already in Library</b>
 
-    {% endif %}
-        </div>
+                {% endif %}
+            </div>
         </div>
     {% empty %}
         <br/>
