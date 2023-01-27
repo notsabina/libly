@@ -13,15 +13,18 @@
                 <p><a id="publisher"><b>Publisher:</b></a> {{ publisher }}</p>
                 <p><a id="publicationDate"><b>Publication date:</b></a> {{ publication_date }}</p>
                 <p><a id="pageNumber"><b>No of pages:</b></a> {{ page_count }}</p>
-                {% if not in_library %}
+                <p><a id="description"><b>Description:</b></a> <br/> {{ description }}</p>
+                <div class="book-links"> {% if not in_library %}
                     <form method="post" action="{% url 'add_to_library' key %}">
                         {% csrf_token %}
                         <button class="layout-nlink button button-secondary" type="submit">Add to Library</button>
                     </form>
                 {% else %}
-                    <b>Already in Library</b>
+                    <b class="layout-nlink button button-secondary">Already in Library</b>
+
                 {% endif %}
-                <p><a id="description"><b>Description:</b></a> <br/> {{ description }}</p>
+                    <a href="{% url 'book-list' %}?search={{ reference }}"
+                       class="layout-nlink button button-primary button"> Go Back</a></div>
             </div>
         </div>
     {% endif %}

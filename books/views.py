@@ -74,14 +74,16 @@ def book_list(request):
             'key': new_key,
             'image': image,
         })
-    return render(request, 'feed/home.html', {'books': results, 'books_in_library': books_in_library})
+    return render(request, 'feed/home.html', {'books': results, 'books_in_library': books_in_library,
+                                              'search_term': search_term, })
 
 
 @login_required
-def book_detail(request, key):
+def book_detail(request, key, reference):
     book = get_object_or_404(Book, pk=key)
     user_library = Library.objects.filter(user=request.user).filter(book=book).values_list('book', flat=True)
     in_library = True if user_library else False
+    # reference = request.GET.get('search', '')
     return render(request,
                   'feed/book_details.html',
                   {
@@ -94,6 +96,7 @@ def book_detail(request, key):
                       'image': book.image,
                       'in_library': in_library,
                       "page_count": book.num_pages,
+                      "reference": reference,
                   })
 
 

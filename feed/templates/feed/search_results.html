@@ -19,7 +19,7 @@
                     class="book-image"
             />
             <div class="book-container1">
-                <h3><a href="/book/{{ book.key }}/"><b>{{ book.title }}</b></a></h3>
+                <h3><a href="/book/{{ book.key }}-{{ search_term }}/"><b>{{ book.title }}</b></a></h3>
                 <p><a id="author"><b>Authors:</b></a> {{ book.authors }}</p>
                 <p><a id="publisher"><b>Publisher:</b></a> {{ book.publisher }}</p>
                 <p><a id="publicationDate"><b>Publication date:</b></a> {{ book.publication_date }}</p>
