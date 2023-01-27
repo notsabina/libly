@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from books.models import Library
+from books.models import Library, Book
 from users.forms import UserUpdateForm, UserRegisterForm, ProfileUpdateForm
 
 User = get_user_model()
@@ -13,7 +13,8 @@ def my_profile(request):
     p = request.user.profile
     who = p.user
     library = Library.objects.filter(user=request.user)
-    books_in_library = [book for book in library.values_list('book', flat=True)]
+    book_keys = library.values_list('book', flat=True)
+    books_in_library = Book.objects.filter(key__in=book_keys)
     context = {
         'u': who,
         'books_in_library': books_in_library,

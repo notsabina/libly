@@ -1,6 +1,7 @@
 import requests as url_requests
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 
 from books.models import Book, Library
 
@@ -9,7 +10,7 @@ def book_list(request):
     user_library = Library.objects.filter(user=request.user)
     books_in_library = [book for book in user_library.values_list('book', flat=True)]
     search_term = request.GET.get('search', '')  # Replace this with the search term you want to use
-    api_key = 'AIzaSyAfTWuEFPTvEIdUl6Q83IkAaSOruGdVQYs'
+    api_key = 'AIzaSyAzmUaULnPv1IhOorHDN36kbOR7FPU-Pmc'
     api_url = f'https://www.googleapis.com/books/v1/volumes?q={search_term}&key={api_key}'
     response = url_requests.get(api_url)
     data = response.json()
@@ -90,14 +91,14 @@ def book_list(request):
 #                       "authorsString": authorsString,
 #                   })
 #
-#
-# def add_to_library(request, book_id):
-#     try:
-#         book = get_object_or_404(Book, pk=book_id)
-#         print(book)
-#         user = request.user
-#         library = Library(user=user, book=book)
-#         library.save()
-#         return JsonResponse({'status': 'success'})
-#     except:
-#         return JsonResponse({'status': 'error'})
+@login_required
+def add_to_library(request, book_id):
+    try:
+        book = get_object_or_404(Book, pk=book_id)
+        print(book)
+        user = request.user
+        library = Library(user=user, book=book)
+        library.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    except:
+        return JsonResponse({'status': 'error'})

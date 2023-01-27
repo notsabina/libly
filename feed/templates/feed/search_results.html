@@ -23,14 +23,15 @@
             <p><a id="author">Authors:</a> {{ book.authors }}</p>
             <p><a id="publisher">Publisher:</a> {{ book.publisher }}</p>
             <p><a id="publicationDate">Publication date:</a> {{ book.published_date }}</p>
-{#            {% if not book.key in books_in_library %}#}
-{#      <form method="post" action="{% url 'add_to_library' book.key %}">#}
-{#        {% csrf_token %}#}
-{#        <button class="layout-navlink button button-secondary" type="submit">Add to Library</button>#}
-{#      </form>#}
-{#    {% else %}#}
-{#      Already in Library#}
-{#    {% endif %}#}
+            {% if not book.key in books_in_library %}
+      <form method="post" action="{% url 'add_to_library' book.key %}">
+        {% csrf_token %}
+        <button class="add-to-library-btn layout-navlink button button-secondary" type="submit">
+            Add to Library</button>
+      </form>
+    {% else %}
+      Already in Library
+    {% endif %}
         </div>
         </div>
     {% empty %}
