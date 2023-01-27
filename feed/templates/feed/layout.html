@@ -63,11 +63,11 @@
             <div class="layout-links">
                 {% if user.is_authenticated %}
                 <a href="{% url 'my_profile' %}"
-                  class="layout-navlink button button-primary button"> My Profile</a>
-                <a href="{% url 'logout' %}" class="layout-navlink button-secondary button">Log out</a>
+                  class="layout-nlink button button-primary button"> My Profile</a>
+                <a href="{% url 'logout' %}" class="layout-nlink button-secondary button">Log out</a>
                 {% else %}
-                <a href="{% url 'login' %}" class="layout-navlink button-secondary button">Log in</a>
-              <a href="{% url 'register' %}" class="layout-navlink button button-primary">Get started</a>
+                <a href="{% url 'login' %}" class="layout-nlink button-secondary button">Log in</a>
+              <a href="{% url 'register' %}" class="layout-nlink button button-primary">Get started</a>
                 {% endif %}
             </div>
             <div class="layout-burger-menu navbar-burger-menu">

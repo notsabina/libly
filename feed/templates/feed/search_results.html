@@ -6,7 +6,7 @@
                 placeholder="The book i read is...">
         <button
                 type="submit"
-              class="layout-navlink button button-secondary"
+              class="layout-nlink button button-secondary"
             >Search
             </button>
     </form>
@@ -19,18 +19,19 @@
       class="book-image"
     />
         <div class="book-container1">
-            <h3><a href="/books/book/{{ book.key }}/">{{ book.title }}</a></h3>
-            <p><a id="author">Authors:</a> {{ book.authors }}</p>
-            <p><a id="publisher">Publisher:</a> {{ book.publisher }}</p>
-            <p><a id="publicationDate">Publication date:</a> {{ book.published_date }}</p>
+            <h3><a href="/book/{{ book.key }}/"><b>{{ book.title }}</b></a></h3>
+            <p><a id="author"><b>Authors:</b></a> {{ book.authors }}</p>
+            <p><a id="publisher"><b>Publisher:</b></a> {{ book.publisher }}</p>
+            <p><a id="publicationDate"><b>Publication date:</b></a> {{ book.publication_date }}</p>
             {% if not book.key in books_in_library %}
       <form method="post" action="{% url 'add_to_library' book.key %}">
         {% csrf_token %}
-        <button class="add-to-library-btn layout-navlink button button-secondary" type="submit">
+        <button class="add-to-library-btn layout-nlink button button-secondary" type="submit">
             Add to Library</button>
       </form>
     {% else %}
-      Already in Library
+                <b>Already in Library</b>
+
     {% endif %}
         </div>
         </div>

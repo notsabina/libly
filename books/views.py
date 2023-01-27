@@ -6,10 +6,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from books.models import Book, Library
 
 
+@login_required
 def book_list(request):
     user_library = Library.objects.filter(user=request.user)
     books_in_library = [book for book in user_library.values_list('book', flat=True)]
-    search_term = request.GET.get('search', '')  # Replace this with the search term you want to use
+    search_term = request.GET.get('search', '')
     api_key = 'AIzaSyAzmUaULnPv1IhOorHDN36kbOR7FPU-Pmc'
     api_url = f'https://www.googleapis.com/books/v1/volumes?q={search_term}&key={api_key}'
     response = url_requests.get(api_url)
@@ -24,23 +25,19 @@ def book_list(request):
         volume_info = book['volumeInfo']
         title = volume_info.get('title', [])
         authors = volume_info.get('authors', [])
-        authors = ', '.join(authors)
-        authors = authors.replace('[', '')
-        authors = authors.replace(']', '')
+        authors = ', '.join(authors).replace('[', '').replace(']', '')
         publisher = volume_info.get('publisher', '')
-        published_date = volume_info.get('publishedDate', '')
+        publication_date = volume_info.get('publishedDate', '')
         description = volume_info.get('description', '')
         num_pages = volume_info.get('pageCount', [])
         genre = volume_info.get('categories', [])
-        genre = ', '.join(genre)
-        genre = genre.replace('[', '')
-        genre = genre.replace(']', '')
-        image = volume_info.get('imageLinks', {}).get('smallThumbnail', 'media/default-book.jpg')
+        genre = ', '.join(genre).replace('[', '').replace(']', '')
+        image = volume_info.get('imageLinks', {}).get('thumbnail', 'media/default_book.png')
 
         if publisher == '':
             publisher = 'Unknown'
-        if published_date == '':
-            published_date = 'Unknown'
+        if publication_date == '':
+            publication_date = 'Unknown'
         if description == '':
             description = 'Unknown'
         if num_pages == '' or num_pages == '0' or num_pages == 0 or type(num_pages) == list:
@@ -53,14 +50,15 @@ def book_list(request):
             except:
                 num_pages = 'Unknown'
 
-        new_key = str(hash((title, tuple(authors), publisher, published_date)))
+        new_key = str(hash((title, tuple(authors), publication_date)))
+        print(new_key)
         all_books = list(Book.objects.all().values_list('key', flat=True))
 
         if new_key not in all_books:
             obj = Book(title=title,
                        author=authors,
                        publisher=publisher,
-                       publication_date=published_date,
+                       publication_date=publication_date,
                        description=description,
                        key=new_key,
                        num_pages=num_pages,
@@ -72,30 +70,38 @@ def book_list(request):
             'title': title,
             'authors': authors,
             'publisher': publisher,
-            'published_date': published_date,
-            'description': description,
+            'publication_date': publication_date,
             'key': new_key,
             'image': image,
         })
     return render(request, 'feed/home.html', {'books': results, 'books_in_library': books_in_library})
 
 
-# def book_detail(request, key):
-#     book = Book.objects.get(key=key)
-#     authorsString = "-".join(book.author)
-#
-#     return render(request,
-#                   'feed/book_details.html',
-#                   {
-#                       'book': book,
-#                       "authorsString": authorsString,
-#                   })
-#
 @login_required
-def add_to_library(request, book_id):
+def book_detail(request, key):
+    book = get_object_or_404(Book, pk=key)
+    print(book)
+    user_library = Library.objects.filter(user=request.user).filter(book=book).values_list('book', flat=True)
+    in_library = True if user_library else False
+    return render(request,
+                  'feed/book_details.html',
+                  {
+                      'title': book.title,
+                      'authors': book.author,
+                      'publisher': book.publisher,
+                      'publication_date': book.publication_date,
+                      'description': book.description,
+                      'key': book.key,
+                      'image': book.image,
+                      'in_library': in_library,
+                      "page_count": book.num_pages,
+                  })
+
+
+@login_required
+def add_to_library(request, key):
     try:
-        book = get_object_or_404(Book, pk=book_id)
-        print(book)
+        book = get_object_or_404(Book, pk=key)
         user = request.user
         library = Library(user=user, book=book)
         library.save()

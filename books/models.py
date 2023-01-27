@@ -18,5 +18,6 @@ class Book(models.Model):
 
 
 class Library(models.Model):
+    models.UniqueConstraint(fields=['user', 'book'], name="book_user_id", )
     user = models.ForeignKey(User, on_delete=models.CASCADE, default= None)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, default=None)
