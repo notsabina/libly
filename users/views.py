@@ -1,70 +1,22 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 from books.models import Library
-from feed.models import Post
-from users.forms import UserUpdateForm, UserRegisterForm
-from users.models import FriendRequest
+from users.forms import UserUpdateForm, UserRegisterForm, ProfileUpdateForm
 
-
-def users_list(request):
-    pass
-
-
-def friend_list(request):
-    pass
-
-
-@login_required
-def send_friend_request(request):
-    pass
-
-
-@login_required
-def cancel_friend_request(request):
-    pass
-
-
-@login_required
-def accept_friend_request(request):
-    pass
-
-
-@login_required
-def delete_friend_request(request):
-    pass
-
-
-@login_required
-def search_users(request):
-    query = request.GET.get('q')  # TODO
-    object_list = User.objects.filter(username__incontais=query)
-    context = {
-        'users': object_list
-    }
-    return render(request, "users/search_users.html", context)
+User = get_user_model()
 
 
 def my_profile(request):
     p = request.user.profile
     who = p.user
-    sent_friend_requests = FriendRequest.objects.filter(from_user=who)
-    received_friend_requests = FriendRequest.objects.filter(to_user=who)
-    user_posts = Post.objects.filter(user_name=who)
-    friends = p.friends.all()
-    library = Library.objects.filter(user=who)
-
-    # TODO add requests display
-
+    # library = Library.objects.filter(user=request.user)
+    # books_in_library = [book for book in library.values_list('book', flat=True)]
     context = {
         'u': who,
-        # TODO add button
-        'friends_list': friends,
-        'sent_friend_requests': sent_friend_requests,
-        'received_friend_requests': received_friend_requests,
-        # TODO add posts processing
+        # 'books_in_library': books_in_library
     }
 
     return render(request, "users/profile.html", context)
@@ -74,7 +26,20 @@ def my_profile(request):
 def edit_profile(request):
     if request.method == "POST":
         u_form = UserUpdateForm(request.POST, instance=request.user)
-    # TODO
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('my_profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+    return render(request, 'users/edit_profile.html', context)
 
 
 def register(request):

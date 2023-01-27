@@ -1,0 +1,40 @@
+<div class="book-content">
+<br/>
+    <form method="GET" class="log-form  align=center" action="{% url 'book-list' %}">
+        <input
+                class="component-searchbar input" type="text" name="search" autocomplete="on"
+                placeholder="The book i read is...">
+        <button
+                type="submit"
+              class="layout-navlink button button-secondary"
+            >Search
+            </button>
+    </form>
+
+    {% for book in books %}
+        <div class="book-container">
+         <img
+      src="{{ book.image }}"
+      alt="image"
+      class="book-image"
+    />
+        <div class="book-container1">
+            <h3><a href="/books/book/{{ book.key }}/">{{ book.title }}</a></h3>
+            <p><a id="author">Authors:</a> {{ book.authors }}</p>
+            <p><a id="publisher">Publisher:</a> {{ book.publisher }}</p>
+            <p><a id="publicationDate">Publication date:</a> {{ book.published_date }}</p>
+{#            {% if not book.key in books_in_library %}#}
+{#      <form method="post" action="{% url 'add_to_library' book.key %}">#}
+{#        {% csrf_token %}#}
+{#        <button class="layout-navlink button button-secondary" type="submit">Add to Library</button>#}
+{#      </form>#}
+{#    {% else %}#}
+{#      Already in Library#}
+{#    {% endif %}#}
+        </div>
+        </div>
+    {% empty %}
+        <p >No books found</p>
+    {% endfor %}
+</div>
+

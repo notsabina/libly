@@ -1,11 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%  extends "feed/layout.html" %}
+{%  block content %}<div class="profile-container">
+            <div class="profile-container1">
+                <a href="{{ u.profile.image.url }}">
+              <img
+                alt="image"
+                src="{{ u.profile.image.url }}"
+                loading="eager"
+                class="profile-image1"
+              />
+            </a>
+            </div>
+            <div class="profile-container2">
+              <h1 class="profile-text1">{{ u }}</h1>
+              <span class="profile-text2">{{ u.profile.bio }}</span>
+            <a class="layout-navlink button button-secondary" href="{% url 'edit_profile' %}"
+                >Edit Profile</a>
+            </div>
 
-</body>
-</html>
-{##TODO#}
+{#            <div class="profile-gallery">#}
+{#                {% for book in books_in_library %}#}
+{#              <div#}
+{#                class="gallery-card1-gallery-card gallery-card1-root-class-name"#}
+{#              >#}
+{#                <img#}
+{#                  alt="image"#}
+{#                  src="{{ book.image }}"#}
+{#                  class="gallery-card1-image"#}
+{#                />#}
+{#                <h2 class="gallery-card1-text"><span>{{ book.title }}</span></h2>#}
+{#                <span class="gallery-card1-text1">#}
+{#                  <span>{{ book.authors }}</span>#}
+{#                </span>#}
+{#              </div>#}
+{#               {% empty %}#}
+{#        <p id="noBooks">No books found.</p>#}
+{#    {% endfor %}#}
+{#            </div>#}
+            </div>
+{%  endblock %}
